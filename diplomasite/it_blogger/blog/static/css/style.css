@@ -1,0 +1,49 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url('https://pic.xenomorph.ru/2011-05/1304496477_39.jpg');
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.content .wrap{
+    background: #FFF;
+    padding: 40px;
+    box-sizing: border-box;
+    
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+a{
+    color: #81d4fa;
+    text-decoration: none;
+    padding: 20px;
+}
+a:hover{
+    color: #FFC;
+}
+.header{
+    background: #121212;
+}
+.mainmenu{
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo{
+    flex-basis: 40%;
+}
+.last{
+    flex-basis: 30%;
+    text-align: right;
+    padding: 20px 0;
+}
+
