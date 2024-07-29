@@ -1,8 +1,12 @@
 body{
     margin: 0;
     padding: 0;
-    background-image: url('https://pic.xenomorph.ru/2011-05/1304496477_39.jpg');
+    background-image: url('https://i.pinimg.com/originals/c4/1f/48/c41f48f62566256824004d7d1c6a4cd3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100vh; 
 }
 .wrap{
     max-width: 1200px;

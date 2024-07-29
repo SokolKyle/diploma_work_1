@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load blog_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,9 +24,24 @@
 </div>
 <div class="content">
     <div class="wrap">
-        {% block content %}
+        <div class="sidebar">
+            <ul>
+                {% if cat_selected == 0 %}
+                <li class="selected">Все категории</li>
+                {% else %}
+                <li><a href="{% url 'blogs' %}">Все категории</a></li>
+                {% endif %}
+                {% show_categories cat_selected=cat_selected %}
 
-        {% endblock %}
+            </ul>
+        </div>
+
+        <div class="main">
+
+            {% block content %}
+
+            {% endblock %}
+        </div>
     </div>
 </div>
 </body>
