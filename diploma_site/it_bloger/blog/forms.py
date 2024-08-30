@@ -2,6 +2,14 @@ from django import forms
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from captcha.fields import CaptchaField
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Имя', max_length=255)
+    email = forms.EmailField(label='Email')
+    content = forms.CharField(label='Сообщение', widget=forms.Textarea(attrs={'cols': 60, 'rows': 7}))
+    captcha = CaptchaField()
 
 
 class RegisterUserForm(UserCreationForm):
@@ -27,4 +35,23 @@ class AddPostForm(forms.ModelForm):
             "title": forms.TextInput(attrs={'class': 'form-input'}),
             "slug": forms.TextInput(attrs={'class': 'form-input'}),
             "content": forms.Textarea(attrs={'class': 'form-input'}),
+        }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-input', 'rows': 4}),
+        }
+
+
+class CommentReplyForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(
+                attrs={'class': 'form-input', 'rows': 2, 'placeholder': 'Ваш ответ...', 'required': True}),
         }

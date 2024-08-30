@@ -1,13 +1,80 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-
 <div class="post">
     <h2>{{ post.title }}</h2>
-    
+
     {% if post.photo %}
-    <img src="{{ post.photo.url }}" alt="" class="image">
+    <img src="{{ post.photo.url }}" alt="{{ post.title }} - Фото" class="image">
     {% endif %}
-    {{ post.content|linebreaks }}
+    <div class="post-content">
+        {{ post.content|safe }}
+    </div>
 </div>
+
+<div class="ratings">
+    <h3>Оцените статью</h3>
+    <form action="{% url 'rate_post' post.slug %}" method="post" class="rating-form">
+        {% csrf_token %}
+        <button type="submit" name="helpful" value="true" class="btn useful">Полезно</button>
+        <button type="submit" name="helpful" value="false" class="btn not-useful">Не полезно</button>
+    </form>
+    <p>
+        <span class="useful-score">Полезно: {{ ratings.helpful_count }}</span> |
+        <span class="not-useful-score">Не полезно: {{ ratings.not_helpful_count }}</span>
+    </p>
+</div>
+
+<div class="comments">
+    <h3>Добавить комментарий</h3>
+    <form action="{% url 'comment_post' post.slug %}" method="post" class="ajax-form">
+        {% csrf_token %}
+        <textarea name="content" required placeholder="Ваш комментарий..." class="form-input"></textarea>
+        <button type="submit" class="btn submit-comment">Отправить комментарий</button>
+    </form>
+
+    <h4>Комментарии</h4>
+    {% if comments %}
+    <ul class="comment-list">
+        {% for comment in comments %}
+        {% if comment.parent is None %}
+        <li class="comment-item">
+            <div class="comment-content">
+                <strong class="comment-user">{{ comment.user.username }}</strong>: {{ comment.content }}
+                <span class="comment-date">({{ comment.created_at|date:"Y-m-d H:i:s" }})</span>
+                <span class="reply-btn" onclick="toggleReplyForm('reply-form-{{ comment.id }}')">Ответить</span>
+            </div>
+            <div id="reply-form-{{ comment.id }}" class="reply-form" style="display:none;">
+                <form action="{% url 'comment_post' post.slug %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="parent_comment_id" value="{{ comment.id }}">
+                    <textarea name="content" rows="2" placeholder="Ваш ответ..." class="form-input" required></textarea>
+                    <button type="submit" class="btn submit-reply">Отправить</button>
+                </form>
+            </div>
+            <hr class="divider"/>
+            <ul class="reply-list">
+                {% for reply in comment.replies.all %}
+                <li class="reply-item">
+                    <strong>{{ reply.user.username }}</strong>: {{ reply.content }}
+                    <span class="reply-date">({{ reply.created_at|date:"Y-m-d H:i:s" }})</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Комментариев пока нет.</p>
+    {% endif %}
+</div>
+
+<script>
+    function toggleReplyForm(formId) {
+        const form = document.getElementById(formId);
+        form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+</script>
+
 {% endblock %}

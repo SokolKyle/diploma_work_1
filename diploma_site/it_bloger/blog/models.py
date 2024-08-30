@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Blog(models.Model):
@@ -37,3 +38,32 @@ class Category(models.Model):
     class Meta:
         verbose_name = "категорию"
         verbose_name_plural = "Категории"
+
+
+class Rating(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='ratings')  # Добавлено related_name
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    helpful = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Оценка"
+        verbose_name_plural = "Оценки"
+
+    def __str__(self):
+        return f"Оценка {self.user} для {self.blog}"
+
+
+class Comment(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Комментарий от {self.user} к {self.blog}"
