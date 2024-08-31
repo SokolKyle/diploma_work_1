@@ -90,10 +90,12 @@ a:hover {
     padding: 20px;
     display: block;
     border: 1px solid #FFF;
-    background: #264b5d;
+    background: #020608dc;
     font-weight: bold;
     font-size: 18px;
 }
+
+
 
 .selected {
     font-size: 18px;
@@ -111,9 +113,9 @@ a:hover {
 
 .first, .date {
     padding: 10px 20px;
-    background: #264b5d;
+    background: #02080a;
     font-size: 18px;
-    color: #FFF;
+    color: #81d4fa;
     margin: 0;
 }
 
@@ -182,10 +184,10 @@ form label {
 }
 
 .list-pages a {
-    background: #264b5d;
+    background: #040607;
     padding: 20px;
     display: block;
-    color: #FFF;
+    color: #81d4fa;
 }
 
 .page-num {
