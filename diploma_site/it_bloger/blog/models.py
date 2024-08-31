@@ -41,7 +41,7 @@ class Category(models.Model):
 
 
 class Rating(models.Model):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='ratings')  # Добавлено related_name
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     helpful = models.BooleanField(default=False)
 
